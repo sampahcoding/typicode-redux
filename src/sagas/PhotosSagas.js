@@ -17,7 +17,8 @@ function* getPhotos(action) {
 }
 
 // Watcher sagas//
-export function* wacthGetPhotos() {
-	console.log("Redux saga is watching LOAD_PHOTOS action listener...");
+function* wacthGetPhotos() {
 	yield takeLatest(PHOTOS.LOADING, getPhotos);
-}
+};
+
+export { wacthGetPhotos };

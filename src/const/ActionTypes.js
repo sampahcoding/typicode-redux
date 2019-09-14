@@ -3,7 +3,8 @@ function generateConst(name) {
     LOADING: `${name}.LOADING`,
     ERROR: `${name}.ERROR`,
     DONE: `${name}.DONE`,
-    NOT_FOUND: `${name}.NOT_FOUND`,
+    DELETE: `${name}.DELETE`,
+    ADD: `${name}.ADD`,
   };
 }
 export const PHOTOS = generateConst('PHOTOS');

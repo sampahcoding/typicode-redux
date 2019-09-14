@@ -2,34 +2,63 @@ import { PHOTOS } from "../const/ActionTypes";
 
 const photos = {
 	datas: [],
-	progress: false,
+	progress: true,
 	reload: false,
-	no_result: false
 };
 
-function result(state, action) {
-	if (action.infinite === true) {
-		return state.datas.concat(action.response);
+function remove(state, action) {
+	console.log(action)
+	return state.datas.filter((d) => d.id !== action.payload.id);
+}
+
+function add(state, action) {
+	if(action.payload.type === 'ADD') {
+		const newDatas = state.datas.slice();
+		var uniqid = Date.now();
+		newDatas.unshift({ id: uniqid, title: action.payload.title });
+		return newDatas;
+	} else {
+		const newDatas = [];
+		state.datas.forEach((c) => {
+			if (c.id === action.payload.id) {
+				const newItem = { ...c, title: action.payload.title };
+				newDatas.push(newItem);
+			} else {
+				newDatas.push(c);
+			}
+		});
+		return newDatas;
 	}
-	return action.response;
 }
 
 export default function Photos(state = photos, action) {
-	if (action.infinite !== true) {
-		state = {...state, ...photos};
-	}
 	switch (action.type) {
 	case PHOTOS.LOADING:
-		return { ...state, progress: true };
+		return {
+			...state,
+			progress: true
+		};
 	case PHOTOS.DONE:
-		return { ...state, datas: result(state, action), progress: false };
-	case PHOTOS.NOT_FOUND:
-		return { ...state, datas: result(state, action), no_result: true};
+		return {
+			...state,
+			datas: action.response,
+			progress: false
+		};
 	case PHOTOS.ERROR:
 		return {
 			...state,
 			reload: true,
 			error: "Error while fetching repositories"
+		};
+	case PHOTOS.DELETE:
+		return {
+			...state,
+			datas: remove(state, action)
+		};
+	case PHOTOS.ADD:
+		return {
+			...state,
+			datas: add(state, action),
 		};
 	default:
 		return state;
