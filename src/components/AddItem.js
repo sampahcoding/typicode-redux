@@ -23,7 +23,6 @@ const AddItem = ({ data }) => {
     inputRef.current.value= data ? data.title : '';
   }, [data, isDone]);
 
-  console.log('render add');
   return(
     <>
       <input ref={inputRef} style={{ width: '350px' }} disabled={isLoading}/>

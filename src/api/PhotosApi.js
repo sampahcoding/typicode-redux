@@ -7,11 +7,12 @@ import { useDispatch } from 'react-redux';
 const ReqAddPhoto = (payload) => {
   const [ isLoading, setIsLoading ] = useState(false);
   const [ isDone, setIsDone ] = useState(false);
+  if(isDone)
+    setIsDone(false);
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (payload.title === '') return
-    if (payload.sent=== true) {
+    if (payload.sent === true) {
       setIsDone(false);
       setIsLoading(true);
       // api request just for sample
@@ -24,7 +25,7 @@ const ReqAddPhoto = (payload) => {
       setIsDone(true);
     }
     // eslint-disable-next-line
-  }, [payload.sent]);
+  }, [payload.sent, payload.title]);
 
   return { isLoading, isDone };
 };
